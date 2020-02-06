@@ -1,7 +1,5 @@
 <?php
 $User = $_SESSION["UserID"];
-$CurrentTime = time();
-$ipAddress = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 if(isset($User) && !empty($User)){
     if(!isset($_SESSION["CLAIM"])){
         //MAIN USER DATA
@@ -11,7 +9,7 @@ if(isset($User) && !empty($User)){
         $resultUser = $stmt->get_result();
         $row = mysqli_fetch_assoc($resultUser);
         //FAUCET DATA
-        $stmt = $con->prepare("select * from FaucetNew where PyrinUID=?");
+        $stmt = $con->prepare("select * from FaucetClaim where UserID=?");
         $stmt->bind_param("i", $User);
         $stmt->execute();
         $resultFaucet = $stmt->get_result();
@@ -41,7 +39,6 @@ if(isset($User) && !empty($User)){
         $_SESSION["LastName"] = $row['Lname'];
         $_SESSION["Email"] = $row['Email'];
         $_SESSION["PW"] = $row['Password'];
-        $_SESSION["DarkModeShow"] = $row["Darkmode"];
         //SETTING FROM FAUCET TABLE
         $_SESSION["Balance"] = $row1["Balance"];
         $_SESSION["WithdrawlAddress"] = $row1['Address'];
@@ -49,9 +46,6 @@ if(isset($User) && !empty($User)){
         $_SESSION["Captcha"] = $row1["Captcha"];    //What Type of Captcha
         $_SESSION["CLAIMT"] = $row1["CLAIMT"];      //Claim Times
         $_SESSION["CLAIM"] = $row1["Claim"];        //Last Time a User claimed
-        $_SESSION["relink"] = $row1['relink'];      //Redirect Links
-        $_SESSION["PopUp"] = $row1['popup'];
-        $_SESSION["JSE"] = $row1['JSE'];
         $_SESSION["Token"] = $row1['Tokens'];
     }
 }
