@@ -1,26 +1,32 @@
 <?php
-session_start();
-//Basic UserData
-$ip = $_SERVER['REMOTE_ADDR']?:($_SERVER['HTTP_X_FORWARDED_FOR']?:$_SERVER['HTTP_CLIENT_IP']);
-$curtime = time();
-
-//Site settings
-$Title = 'Ebits Faucet';
-$URL = '';
-$HTTP = 'http'; //put in protocal http / https
-$Version = 1;
-
-//Mysqli Connections
-$MysqlHost = "localhost";
-$MysqlUser = "user";
-$MysqlPassword = "";
-$MysqlHost = ""
-$DISABLEMysql = '0'; //Mainly used for oh shit moments when you need to disable mysqli
-
 //---------SHOW ERRORS-------
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+session_start();
+//Basic UserData
+$ip = $_SERVER['REMOTE_ADDR']?:($_SERVER['HTTP_X_FORWARDED_FOR']?:$_SERVER['HTTP_CLIENT_IP']);
+$curtime = time();
+if(isset($_SESSION["UserID"]) && !empty($_SESSION["UserID"])){
+  $User = $_SESSION["UserID"];
+}
+//Site settings
+$Title = 'Ebits Faucet';
+$Name = 'Ebits Crypto';
+$URL = '';
+$HTTP = 'http'; //put in protocal http / https
+$Version = 1;
+$TimePerClaim = 360; //Time in seconds between claims
+$EnableFaucet = true;
+$EnableAutoFaucet = true;
+
+//Mysqli Connections
+$MysqlHost = "";
+$MysqlUser = "";
+$MysqlPassword = "";
+$MysqlDatabase = "";
+$DISABLEMysql = '0'; //Mainly used for oh shit moments when you need to disable mysqli
 
 //-------VPS SETTINGS---------
 $VPSUser = 'user';

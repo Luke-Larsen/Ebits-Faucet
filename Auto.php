@@ -1,11 +1,9 @@
 <?php
-require_once ('Php/config.php');
-require_once ('Php/mysqli.php');
-if($EnableFaucet != true){
+if($EnableAutoFaucet != true){
   header('location:404.php');
 }
 if(isset($_POST['Claim'])){
-  $stmt = $con->prepare("select * from faucetClaims where `UserID`=?");
+  $stmt = $con->prepare("select * from faucetAutoClaims where `UserID`=?");
   $stmt->bind_param("s", $User,);
   $stmt->execute();
   $results = $stmt->get_result();
@@ -19,4 +17,3 @@ if(isset($_POST['Claim'])){
     echo "Please wait $TimeWait seconds";
   }
 }
-?>

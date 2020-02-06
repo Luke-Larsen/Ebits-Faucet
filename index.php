@@ -1,7 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once ('Php/config.php');
 require_once ('Php/mysqli.php');
-
 if(isset($_POST['enter'])){
   $username = $_POST['username'];
   $password = $_POST['password'];
@@ -44,11 +46,13 @@ if(isset($_POST['enter'])){
     <title><?php echo $Title ?></title>
   </head>
   <body>
+    <?php include_once "assets/bases/Nav.php";?>
     Welcome please login in order to begain claiming Ebits
     <form action="" method="post">
       <input type="text" name='username' class="form-control" placeholder="username/email" required>
       <input type="password" name='password' class="form-control" placeholder="password" required>
       <input type="submit" class="btn btn-danger" name="enter" value="Enter" placeholder="Enter">
     </form>
+    <?php include_once "assets/bases/footer.php";?>
   </body>
 </html>
