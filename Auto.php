@@ -1,19 +1,39 @@
 <?php
+require_once ('Php/config.php');
+require_once ('Php/mysqli.php');
 if($EnableAutoFaucet != true){
   header('location:404.php');
 }
-if(isset($_POST['Claim'])){
-  $stmt = $con->prepare("select * from faucetAutoClaims where `UserID`=?");
-  $stmt->bind_param("s", $User,);
-  $stmt->execute();
-  $results = $stmt->get_result();
-  $stmt->close();
-  $row = mysqli_fetch_assoc($results);
-  if($TimePerClaim >= ($curtime - $row[claimTime]){
-    echo "You can claim again!"
-    //Claim stuff
-  }else{
-    $TimeWait = ($curtime - $row[claimTime]) -$TimePerClaim;
-    echo "Please wait $TimeWait seconds";
-  }
-}
+
+?>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title><?php echo $Title ?> Auto Faucet</title>
+  </head>
+  <body>
+    <?php include_once "assets/bases/Nav.php";?>
+    <div class='row'>
+      <div class='col-sm-2' style="background-color:blue;height:100%">
+        <?php echo $SideBarAd1; ?>
+      </div>
+      <div class='col-sm-8'>
+        <div>
+          <!-- Put banner ads in these places -->
+        </div>
+        <div>
+
+        </div>
+        <div>
+<!-- Put banner ads in these places -->
+        </div>
+      </div>
+      <div class='col-sm-2' style="background-color:red;height:100%">
+        <?php echo $SideBarAd2; ?>
+      </div>
+    </div>
+    <?php include_once "assets/bases/footer.php";?>
+  </body>
+</html>

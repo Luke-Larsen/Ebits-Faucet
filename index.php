@@ -1,26 +1,25 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 
 require_once ('Php/config.php');
 require_once ('Php/mysqli.php');
+if(isset($User)&&$User != ''){
+    header('location:account.php');
+}else{
+}
 if(isset($_POST['enter'])){
   $username = $_POST['username'];
-  $password = $_POST['password'];
-  if(isset($secret) && $secret != ''){
-    $captcha = $_POST['g-recaptcha-response'];
-    $rsp  = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$captcha&remoteip$ip");
-    $arr = json_decode($rsp,TRUE);
-  }
-  if($arr['success'] || (!isset($secret) && $secret != '')){
-    $stmt = $con->prepare("select * from user where Email=? or `Username`=?");
-    $stmt->bind_param("ss", $EM,$EM);
+  //$captcha = $_POST['g-recaptcha-response'];
+  // $rsp  = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$captcha&remoteip$ip");
+  //$arr = json_decode($rsp,TRUE);
+  //if($arr['success']){
+    $stmt = $con->prepare("select * from User where Email=? or `Username`=?");
+    $stmt->bind_param("ss", $username,$username);
     $stmt->execute();
     $results = $stmt->get_result();
     $stmt->close();
+    $PW = $_POST['password'];
     $row = mysqli_fetch_assoc($results);
-    $hashPW = password_hash($PW, PASSWORD_DEFAULT);
     $hash = $row['Password'];
     $rowEM = $row['Email'];
     $User = $row['UserID'];
@@ -28,25 +27,26 @@ if(isset($_POST['enter'])){
         session_regenerate_id();
         $_SESSION["UserID"] = $row['UserID'];
         $OneMoreTime = "UPDATE user SET iptime = $curtime, ip = '$ip' WHERE UserID = $User";
-        echo "<script>window.location = '$HTTP://$URL/account.php';</script>";
+        echo "<script>window.location = 'account.php';</script>";
         exit;
     }elseif(!password_verify($PW, $hash)){
-        echo "<h4>Invalid email or password.</h4>";
+        echo "<br><br><h4>Invalid email or password.</h4>";
     }else{
         echo "<h4>An unexpected error has occured please try again later.</h4>";
     }
-  }else{
-    echo "bad Captcha";
-  }
+  //}else{
+  //  echo "bad Captcha";
+  //}
 }
 ?>
 <html>
   <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title><?php echo $Title ?></title>
   </head>
-  <body>
+  <body data-spy="scroll" data-target=".navbar" data-offset="60">
     <?php include_once "assets/bases/Nav.php";?>
     Welcome please login in order to begain claiming Ebits
     <form action="" method="post">

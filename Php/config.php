@@ -20,6 +20,15 @@ $Version = 1;
 $TimePerClaim = 360; //Time in seconds between claims
 $EnableFaucet = true;
 $EnableAutoFaucet = true;
+$PricePerCoinUSD = 0.000001;
+$SideBarAd1 = '';
+$SideBarAd2 = '';
+
+//FAUCET settings
+$ClaimInUsdPerClick = .01;
+
+//AUTO FAUCET SETTINGS
+$ClaimInUsdPerClick = .01;
 
 //Mysqli Connections
 $MysqlHost = "";
@@ -36,7 +45,7 @@ $VPSPort = '9901';//Port for communication of the RPC on the vps
 
 //------recaptcha-----------
 $secret = '';
-
+$RecapSiteKey = '';
 //------Tracking Code---------
 //If you wish to use analytics code put it here:
 //example:
