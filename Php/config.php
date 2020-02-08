@@ -18,6 +18,7 @@ $URL = '';
 $HTTP = 'http'; //put in protocal http / https
 $Version = 1;
 $TimePerClaim = 360; //Time in seconds between claims
+$AutoFaucetTimer = 360;
 $EnableFaucet = true;
 $EnableAutoFaucet = true;
 $PricePerCoinUSD = 0.000001;
@@ -28,7 +29,7 @@ $SideBarAd2 = '';
 $ClaimInUsdPerClick = .01;
 
 //AUTO FAUCET SETTINGS
-$ClaimInUsdPerClick = .01;
+$ClaimInUsdPerClickAuto = .01;
 
 //Mysqli Connections
 $MysqlHost = "";

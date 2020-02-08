@@ -2,13 +2,14 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 require_once ('Php/config.php');
 require_once ('Php/mysqli.php');
 if($EnableAutoFaucet != true){
   header('location:404.php');
 }
 
-//SORTLINKSTUFF
+//SORT LINK STUFF
 if(isset($_GET['id']) &&!empty($_GET['id'])){
 	$ShortlinkCheck = $_GET['id'];
 }
@@ -67,6 +68,7 @@ if(isset($_POST['submit'])){
             <center>
               <?php
               $clause = '';
+              $Tokens = mysqli_query($con, "SELECT `Tokens` FROM `User` WHERE `UserID` =  $User");
               $shortlinkclaims = mysqli_query($con, "SELECT ShortlinkId,Time FROM ShortLinkClaims WHERE UserID = $User");
               if(isset($shortlinkclaims)&& !empty($shortlinkclaims) &&$shortlinkclaims->num_rows != 0){
                   while($ShortlinksClaimFetched = mysqli_fetch_assoc($shortlinkclaims)){
@@ -99,7 +101,50 @@ if(isset($_POST['submit'])){
               }else{
                   echo "You have done all the shortlinks you can for today D:";
               }
+              $Tokens = mysqli_fetch_assoc($Tokens);
+              $Tokens = $Tokens['Tokens'];
+              if($Tokens > 0){
+                $AutoClaims = mysqli_query($con, "SELECT * FROM `AutoClaims` WHERE `UserID` = $User ORDER BY `Time` DESC");
+                $TotalTime = $AutoFaucetTimer * $Tokens;
+                if(!empty(mysqli_num_rows($AutoClaims))){
+                  $LastClaim = mysqli_fetch_assoc($AutoClaims);
+                  $LastClaimTime = $LastClaim['Time'];
+                }else{
+                  $LastClaimTime = $curtime - ($AutoFaucetTimer);
+                }
+                $timewait = $curtime - $LastClaimTime;
+                $timewaitShow = $AutoFaucetTimer - $timewait;
+                if($timewait >= $AutoFaucetTimer){
+                  $Amount = $ClaimInUsdPerClickAuto * $PricePerCoinUSD;
+                  $QuickClaim = mysqli_query($con, "INSERT INTO `AutoClaims`(`UserID`, `Time`, `Amount`, `Ip`) VALUES ('$User','$curtime','$Amount','$ip')");
+                  $QuickClaimBalanceAd = mysqli_query($con, "UPDATE `User` SET `Balance`=`Balance`+$Amount,`Tokens`=Tokens - 1 WHERE `UserID` = $User");
+                  echo "<script>location.reload();</script>";
+                }
+              }else{
+                echo "You don't have any tokens. Please use shortlinks to get more. One per shortlink!";
+              }
               ?>
+              <script>
+                  var seconds = <?php echo "$timewaitShow;"; ?>;
+                  function setSecond(timenumber) {
+                      seconds = timenumber;
+                  }
+                  function secondPassed() {
+                      var minutes = Math.round((seconds - 30) / 60);
+                      var remainingSeconds = seconds % 60;
+                      if (remainingSeconds < 10) {
+                          remainingSeconds = '0' + remainingSeconds;
+                      }
+                      document.getElementById('countdown').innerHTML = minutes + ':' + remainingSeconds;
+                      if (seconds == 0) {
+                        location.reload();
+                      } else {
+                          seconds--;
+                      }
+                  }
+                  var countdownTimer = setInterval('secondPassed()', 1000);
+              </script>
+              <div class='Alertcolor' id='countdownhead'>Already claimed reward wait <div id='countdown' class='Alertcolor'></div></div><br>
             </center>
           </div>
         <div>
