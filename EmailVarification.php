@@ -13,29 +13,25 @@ $stmt->bind_param("i", $User);
 $stmt->execute();
 $resultUser = $stmt->get_result();
 $row = mysqli_fetch_assoc($resultUser);
-
 $Username = $row["Username"];
 $email = $row["Email"];
-
 if(!empty ($_GET['code'])){
     $getcode = $_GET['code'];
 }else{
     $getcode = '';
 }
-
 $Emailhash = $row['emailHash'];
 $EmailVarifyed = $row['emailVerified'];
 if($getcode != ''&& $Emailhash != ''){
     if($getcode == $Emailhash){
         $_SESSION["UserID"] = $row['UserID'];
-        $sql420blazeitoncemore = "UPDATE User SET emailHash = '', emailVerified = '1' WHERE UserID = $User";
-        $sql420blazeitoncemore = $con->query($sql420blazeitoncemore);
+        $sqlSend1 = "UPDATE User SET emailHash = '', emailVerified = '1' WHERE UserID = $User";
+        $sqlSend1 = $con->query($sqlSend1);
         echo "<script>window.alert('Success, Email Varified!'); window.location.replace('$URL');</script>";
     }
 }
 if(isset($_POST['Emailsubmit'])){
     //if(isset($_POST['g-recaptcha-response'])&& $_POST['g-recaptcha-response']){
-        $secret = "6LeqOScTAAAAADYx-szqrM5RXb60htrlG1adq35k";
         $ip = $_SERVER['REMOTE_ADDR'];
         $captcha = $_POST['g-recaptcha-response'];
         $rsp  = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$captcha&remoteip$ip");
@@ -46,8 +42,8 @@ if(isset($_POST['Emailsubmit'])){
             $Emailhash = $row['emailHash'];
             if (password_verify($code, $Emailhash)) {
                 $_SESSION["UserID"] = $row['UserID'];
-                $sql420blazeitoncemore = "UPDATE User SET emailHash = '', emailVerified = '1' WHERE UserID = $User";
-                $sql420blazeitoncemore = $con->query($sql420blazeitoncemore);
+                $sqlSend = "UPDATE User SET emailHash = '', emailVerified = '1' WHERE UserID = $User";
+                $sqlSend = $con->query($sqlSend);
                 echo "<script>window.alert('Success, Email Varified!'); window.location.replace('$URL');</script>";
                 exit;
             }elseif(!password_verify($PW, $hash)){
@@ -82,31 +78,28 @@ if(isset($_POST['Emailsubmit'])){
             $email = str_replace('.', '', $parts[0]);
             $email = $email . '@' . $parts[1];
         }
-        $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+        $mail = new PHPMailer(true);
         try {
             //Server settings
             //$mail->SMTPDebug = 2;                                 // Enable verbose debug output
-            $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = $SMTPHost;                   // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = $SMTPUserName;                // SMTP username
-            $mail->Password = $SMTPPassword;                 // SMTP password
-            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = $SMPTPort;                                    // TCP port to connect to
+            $mail->isSMTP();
+            $mail->Host = $SMTPHost;
+            $mail->SMTPAuth = true;
+            $mail->Username = $SMTPUserName;
+            $mail->Password = $SMTPPassword;
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = $SMPTPort;
             //Recipients
-            $mail->setFrom($EmailAccountName, 'Mailer');          //This is the email your form sends From
-            $mail->addAddress($email, $Username); // Add a recipient address
-
+            $mail->setFrom($EmailAccountName, 'Mailer');
+            $mail->addAddress($email, $Username);
             //Content
-            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->isHTML(true);
             $mail->Subject = "$URL Email Verification";
             $mail->Body    = "<html></body><div><div>Dear $username,</div></br></br>
                 <div style='padding-top:8px;'>Please click The following link For verifying and activation of your account</div>
                 <div style='padding-top:8px;'>Or enter this code on the email varification page: $activationcodebasic </div>
             <div style='padding-top:10px;'><a href='$HTTP://$URL/EmailVarification.php?code=$activationcode'>Click Here</a></div>
             </body></html>";
-            //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
             $mail->send();
             echo 'Message has been sent';
             $SetActivationCode = "UPDATE User SET emailHash = '$activationcode' WHERE UserID = $User";
