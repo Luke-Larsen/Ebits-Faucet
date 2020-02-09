@@ -13,3 +13,7 @@ if($LastestVersion > $Version){
 }else{
   $Update = FALSE;
 }
+if(isset($User)&&$User != ''){
+}else{
+  header('location:index.php');
+}

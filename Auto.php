@@ -8,7 +8,10 @@ require_once ('Php/mysqli.php');
 if($EnableAutoFaucet != true){
   header('location:404.php');
 }
-
+if(isset($User)&&$User != ''){
+}else{
+  header('location:index.php');
+}
 //SORT LINK STUFF
 if(isset($_GET['id']) &&!empty($_GET['id'])){
 	$ShortlinkCheck = $_GET['id'];
@@ -47,18 +50,20 @@ if(isset($_POST['submit'])){
 }
 
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <title><?php echo $Title ?> Auto Faucet</title>
   </head>
   <body>
     <?php include_once "assets/bases/Nav.php";?>
     <div class='row'>
-      <div class='col-sm-2' style="background-color:blue;height:100%">
-        <?php echo $SideBarAd1; ?>
+      <div class='col-sm-2' style="background-color:#D3D3D3;min-height:100%">
+        <?php echo $SideBarAd2; ?>
       </div>
       <div class='col-sm-8'>
         <div>
@@ -151,7 +156,7 @@ if(isset($_POST['submit'])){
 <!-- Put banner ads in these places -->
         </div>
       </div>
-      <div class='col-sm-2' style="background-color:red;height:100%">
+      <div class='col-sm-2' style="background-color:#D3D3D3;min-height:100%">
         <?php echo $SideBarAd2; ?>
       </div>
     </div>

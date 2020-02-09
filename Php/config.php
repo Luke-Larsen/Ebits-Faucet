@@ -12,6 +12,7 @@ if(isset($_SESSION["UserID"]) && !empty($_SESSION["UserID"])){
   $User = $_SESSION["UserID"];
 }
 //Site settings
+$PriceApi = '';
 $Title = 'Ebits Faucet';
 $Name = 'Ebits Crypto';
 $URL = '';
@@ -21,15 +22,28 @@ $TimePerClaim = 360; //Time in seconds between claims
 $AutoFaucetTimer = 360;
 $EnableFaucet = true;
 $EnableAutoFaucet = true;
-$PricePerCoinUSD = 0.000001;
+$PricePerCoinOneUSD = 0.000001;
+$MinumumWithdraw = 5;
 $SideBarAd1 = '';
 $SideBarAd2 = '';
-
+$OTSecret = ''; //Offertoro Offerwall secret
+$OTPublic = '';
+$OfferwallCut = .5; //.5 means 50% of the revenue from the offerwall is profit if set properly with the websites.
+$EmailAccountName = ''; //support@ebitsfaucet.com
+$SMTPHost = '';
+$SMTPUserName = '';
+$SMTPPassword = '';
+$SMPTPort = '587';
 //FAUCET settings
 $ClaimInUsdPerClick = .01;
 
 //AUTO FAUCET SETTINGS
 $ClaimInUsdPerClickAuto = .01;
+
+//Express Crypto
+$ECEnabled = true;
+$ECSecret = ''; //API KEY
+$ECWord = ''; //UserToken
 
 //Mysqli Connections
 $MysqlHost = "";
