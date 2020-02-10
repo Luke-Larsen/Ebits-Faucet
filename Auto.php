@@ -39,7 +39,7 @@ if(isset($_POST['submit'])){
         $_SESSION['ShortLinkCheck'] = $RandomNumberForCheck;
         $_SESSION['ShortLinkid'] = $ShortlinksFetchedPush['ShortlinkId'];;
         //$url = $APILink .'?api='. $API . "&url=$HTTP://$URL/Auto.php?id=" . $RandomNumberForCheck . '&format=text';
-        $url = $APILink .'?api='. $API . "&url=http://www.lukehanslarsen.com/EbitsFaucetR/Auto.php?id=" . $RandomNumberForCheck . '&format=text';
+        $url = $APILink .'?api='. $API . "&url=$HTTP://$URL/Auto.php?id=" . $RandomNumberForCheck . '&format=text';
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
