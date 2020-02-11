@@ -49,7 +49,6 @@ if(isset($_POST['Register'])) {
           if(isset($ipUsed)&&$ipUsed == false || $newIp == true){
 
             $Username = $_POST['User'];
-            $LName = $_POST['Last_Name'];
             $Email = $_POST['Email'];
             $WA = $_POST['WalletAddr'];
             $parts = explode('@',$Email);
@@ -115,8 +114,12 @@ if(isset($_POST['Register'])) {
     }
   </script>
 	<body>
+  <?php include_once "assets/bases/Nav.php";?>
 		<div class="row">
-			<div class="6u 12u$(small)" style="text-align: center;">
+      <div class='col-sm-2' style="background-color:#D3D3D3;min-height:100%">
+        <?php echo $SideBarAd1; ?>
+      </div>
+			<div class="col-sm-8" style="text-align: center;">
 				<h2>Register Here</h2>
 						<form action="" method="post" name="RegisterForm" id="RegisterForm">
 						  <div class="FormElement">
@@ -143,6 +146,10 @@ if(isset($_POST['Register'])) {
 						</form>
 						<h3 style="text-align: center;">Already have an account? Login <a href="login.php" class="Hyperlink">Here</a></h3>
 			</div>
+      <div class='col-sm-2' style="background-color:#D3D3D3;min-height:100%">
+        <?php echo $SideBarAd2; ?>
+      </div>
 		</div>
+    <?php include_once "assets/bases/footer.php";?>
 	</body>
 </html>

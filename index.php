@@ -55,6 +55,7 @@ if(isset($_POST['enter'])){
       <input type="password" name='password' class="form-control" placeholder="password" required>
       <input type="submit" class="btn btn-danger" name="enter" value="Enter" placeholder="Enter">
     </form>
+    <h4>If you don't have an account <a href='Register.php'>register here</a></h4>
     <?php include_once "assets/bases/footer.php";?>
   </body>
 </html>
